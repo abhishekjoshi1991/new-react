@@ -12,6 +12,7 @@ import AddIncome from './components/AddIncome'
 import UserIncome from './components/UserIncome'
 import UserExpense from './components/UserExpense'
 import AddExpense from './components/AddExpense'
+import New from './components/New'
 
 //const UserContext = createContext();
 

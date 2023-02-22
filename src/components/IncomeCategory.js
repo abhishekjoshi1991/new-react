@@ -14,7 +14,7 @@ export default function IncomeCategory() {
 
 
    function fetchData() {
-    fetch("http://65.0.132.5:8000/income_category")
+    fetch("http://65.0.132.5:8000/income_category/")
       .then((response) => {
         return response.json()
       })
@@ -22,6 +22,16 @@ export default function IncomeCategory() {
         setIncomeCategory(data)
       });
   }
+
+//   async function fetchData() {
+//     const res = await fetch('http://65.0.132.5:8000/income_category/')
+
+//     const result = await res.json()
+//     console.log(result)
+//     if (result.data) {
+//         setDropdata(result.data)
+//     }
+// }
 
 
   useEffect(() => {

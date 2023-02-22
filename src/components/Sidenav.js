@@ -22,7 +22,6 @@ const drawerWidth = 240;
 export default function Sidenav() {
   const [url, setUrl] =  useState()
   const location = useLocation();
-  console.log(location.pathname);
 
 
   return (
