@@ -1,6 +1,28 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Card} from '@mui/material';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ChartDataLabels,
+  Title,
+  Tooltip,
+  Legend
+);
+
 
 function PieChart({ chartData, expenseData }) {
   //console.log('here',incomeData)
@@ -16,7 +38,20 @@ function PieChart({ chartData, expenseData }) {
                 title: {
                   display: true,
                   //text: "Income"
-                }
+                },
+                datalabels: {
+                  display: true,
+                  formatter: (value, ctx) => {
+                    let sum = 0;
+                    let dataArr = ctx.chart.data.datasets[0].data;
+                    dataArr.map(data => {
+                        sum += data;
+                    });
+                    let percentage = (value*100 / sum).toFixed(2)+"%";
+                    return percentage;
+                },
+    
+                },
               }
             }}
           />

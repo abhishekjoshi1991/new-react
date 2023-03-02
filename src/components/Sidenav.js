@@ -15,6 +15,11 @@ import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import MoneyIcon from '@mui/icons-material/Money';
 import SellIcon from '@mui/icons-material/Sell';
+import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import { useLocation } from 'react-router-dom'
 
 const drawerWidth = 240;
@@ -39,21 +44,21 @@ export default function Sidenav() {
       <List>
           <ListItem disablePadding style={location.pathname=='/'  ? {backgroundColor: "#E3E3DB"} : {}}>
             <ListItemButton>
-                <HomeIcon/>
+                <BarChartIcon/>
             <Link className="nav-link" to="/"><ListItemText primary='Dashboard' /></Link>
             
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding style={location.pathname=='/user_income'  ? {backgroundColor: "#E3E3DB"} : {}}>
             <ListItemButton>
-                <MoneyIcon/>
+                <AttachMoneyIcon/>
             <Link className="nav-link" to="/user_income"><ListItemText primary='My Income' /></Link>
             
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding style={location.pathname=='/user_expense'  ? {backgroundColor: "#E3E3DB"} : {}}>
             <ListItemButton>
-                <MoneyIcon/>
+                <MoneyOffIcon/>
             <Link className="nav-link" to="/user_expense"><ListItemText primary='My Expense' /></Link>
             
             </ListItemButton>
@@ -61,14 +66,14 @@ export default function Sidenav() {
           <Divider/>
           <ListItem disablePadding style={location.pathname=='/income_category'  ? {backgroundColor: "#E3E3DB"} : {}}>
             <ListItemButton>
-                <MoneyIcon/>
+                <AutoAwesomeMosaicIcon/>
             <Link className="nav-link" to="/income_category"><ListItemText primary='Income Category' /></Link>
             
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding style={location.pathname=='/expense_category'  ? {backgroundColor: "#E3E3DB"} : {}}>
             <ListItemButton>
-                <SellIcon/>
+                <AutoAwesomeMosaicIcon/>
             <Link className="nav-link" to="/expense_category"><ListItemText primary='Expense Category' /></Link>
             
             </ListItemButton>

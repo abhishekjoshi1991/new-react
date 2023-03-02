@@ -11,7 +11,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import {  useNavigate } from "react-router-dom";
 
 export default function Header() {
-  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
 
@@ -33,7 +32,7 @@ export default function Header() {
 
 
   return (
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <Box sx={{ display: 'flex' }}>
 
             <CssBaseline />
@@ -44,7 +43,6 @@ export default function Header() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Expense Management
           </Typography>
-          {auth && (
             <div>
               <IconButton
                 size="large"
@@ -75,7 +73,6 @@ export default function Header() {
                 <MenuItem onClick={handleChange}>Logout</MenuItem>
               </Menu>
             </div>
-          )}
         </Toolbar>
       </AppBar>
     </Box>

@@ -26,7 +26,7 @@ export default function Register() {
           confirm_password: confirmPassword
       }
       
-      const response = await fetch('http://65.0.132.5:8000/register/',{
+const response = await fetch('http://65.0.132.5:8000/register/',{
           method: 'POST',
           body: JSON.stringify(data),
           headers: {

@@ -11,22 +11,31 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import PieChartExp from './charts/PieChartExp';
-import { Line } from 'react-chartjs-2';
+import BarChart from './charts/BarChart';
+import Loader from './Loader';
 
-
+ 
 export default function Home() {
 
   const token = StorageHelper.getToken()
   const [income, setIncome] = useState([]);
   const [expense, setExpense] = useState([]);
   const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
   const [chartDataIncome, setChartDataIncome] = useState({})
   const [chartDataExpense, setChartDataExpense] = useState({})
+  const [barData, setBarData] = useState({})
+  const [chartBarData, setChartBarData] = useState({})
 
   function handleChange(e)
   {
-    //console.log(e.target.value)
     fetchData(e.target.value);
+  }
+
+  function handleChangeYear(e)
+  {
+    //console.log(e.target.value)
+    getBarChart(e.target.value);
   }
   async function fetchData(data=false)
   {
@@ -57,6 +66,7 @@ export default function Home() {
     if(result)
     {
       setIncome(result.data.income)
+      setMonth(result.data.income[0].month)
       setChartDataIncome({
         labels: result.data.income.map((data) => data.income_category), 
         datasets: [
@@ -69,11 +79,19 @@ export default function Home() {
               "#446A45",
               "#61CB64"
             ],
+            datalabels: {
+              color: 'white',
+              font: {
+                weight: 'bold'
+              },
+             display:false
+            },
           }
         ]
       })
 
       setExpense(result.data.expense)
+      
       setChartDataExpense({
         labels: result.data.expense.map((data) => data.expense_category), 
         datasets: [
@@ -84,8 +102,18 @@ export default function Home() {
               "#ff8080",
               "#ffcccc",
               "#ff471a",
-              "#b32400"
+              "#b32400",
+              "#D32F25",
+              "#A04E49",
+              "#F5554C"
             ],
+            datalabels: {
+              color: 'white',
+              font: {
+                weight: 'bold'
+              },
+             display:false
+            },
           }
         ]
       })
@@ -93,51 +121,54 @@ export default function Home() {
     
   }
 
+  async function getBarChart(data=false)
+  {
+    let response='';
+    if(data)
+    {
+      data = {year:data}
+       response = await fetch('http://65.0.132.5:8000/income_expense_all_year/',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Token': token
+        },
+        body: JSON.stringify(data),
+    })
+    }
+    else
+    {
+       response = await fetch('http://65.0.132.5:8000/income_expense_all_year/',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Token': token
+        },
+      })
+    }
+    const result = await response.json();
+    if(result)
+    {
+       setBarData(result)
+       setYear(result[0]['year'])
+       const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'];
+       setChartBarData(
+         {
+            labels: labels,
+            datasets: result
+         }
+       )
+    }
+    console.log(barData)
+  }
+
   useEffect(() => {
     fetchData();
+    getBarChart();
   },[]);
   
-  const lines = [
-    
-        {
-          
-          'label':'1997',
-          'data':{
-            'date1':'60',
-            'date2':'90',
-            'date3':'50'
-          },
-          'borderColor': 'rgb(255, 99, 132)',
-          'backgroundColor': 'rgba(255, 99, 132, 0.5)',
-          'yAxisID': 'y'
-          
-        },
-        {
-          'label':'1998',
-          'data':{
-            'date1':'20',
-            'date3':'30'
-          },
-          'borderColor': 'rgb(255, 99, 132)',
-          'backgroundColor': 'rgba(255, 99, 132, 0.5)',
-          'yAxisID': 'y'
-          
-        },
-        {
-          'label':'1999',
-          'data':{
-            'date1':'20',
-            'date3':'30',
-            'date4':'60'
-          },
-          'borderColor': 'rgb(255, 99, 132)',
-          'backgroundColor': 'rgba(255, 99, 132, 0.5)',
-          'yAxisID': 'y'
-          
-        },
-        
-    
-    ]
+  
 
   
 
@@ -161,7 +192,7 @@ export default function Home() {
                         <Select
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
-                        //value={month}
+                        value={month}
                         onChange={handleChange}
                         label="Month"
                       >
@@ -194,8 +225,40 @@ export default function Home() {
                       <div className="col-md-4">
                           {expense.length > 0 ? (<PieChartExp expenseData={chartDataExpense} />) : 'No data to display!!'}
                       </div>
+                    </div><br></br><br></br>
+                    <div className='row'>
+                      <div className='col-md-2'>
+                        
+                        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+
+                        <InputLabel id="demo-simple-select-standard-label">Year</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        value={year}
+                        onChange={handleChangeYear}
+                        label="Year"
+                      >
+                       
+                        <MenuItem value={2023}>2023</MenuItem>
+                        <MenuItem value={2024}>2024</MenuItem>
+                        <MenuItem value={2025}>2025</MenuItem>
+                        <MenuItem value={2026}>2026</MenuItem>
+                        <MenuItem value={2027}>2027</MenuItem>
+                        <MenuItem value={2028}>2028</MenuItem>
+                        <MenuItem value={2029}>2029</MenuItem>
+                        <MenuItem value={2030}>2030</MenuItem>
+                        
+                      </Select>
+                      </FormControl>
+
+                      </div>
+                      
                     </div>
-                    <div class='row'>
+                    <div className='row'>
+                      <div className='col-md-10'>
+                        {barData.length > 0 ? (<BarChart data={chartBarData} />) : 'No data to display!!'}
+                      </div>
                     </div>
                   </div>
                   </div>
